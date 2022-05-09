@@ -70,10 +70,18 @@ int main(int argc, char* argv[])
   size_t nwrite = fwrite(some_data, sizeof *some_data,
       filbank->header->nchans * nsamples, filbank->file);
 
-
   // Now destroy the fil struct
   // de-allocates memory and closes file
   err = destroy_fil(filbank);
+
+  if (err)
+  {
+    fprintf(stderr, "Error in destroy_fil\n");
+    return EXIT_FAILURE;
+  }
+
+  // Cleanup
+  free(some_data);
 
   return EXIT_SUCCESS;
 }
